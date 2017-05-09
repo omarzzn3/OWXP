@@ -543,7 +543,7 @@ List<Task> availableTasks = TaskHandlerUtil.getAvailableFlags(wikiPage.getPageId
 				<liferay-ui:icon
 					cssClass="maintainance-task"
 					data="<%= data %>"
-					iconCssClass="icon-spinner"
+					iconCssClass="icon-time"
 					message="<%= task.getTaskName() %>"
 					url="javascript:;"
 				/>
@@ -562,6 +562,7 @@ List<Task> availableTasks = TaskHandlerUtil.getAvailableFlags(wikiPage.getPageId
 					node: triggerAnim,
 					points:[A.WidgetPositionAlign.LC, A.WidgetPositionAlign.RC]
 				},
+				bodyContent: 'Body Content',
 				bodyContent: iconContainer.html(),
 				cssClass: 'task-flagging',
 				plugins: [A.Plugin.WidgetAnim],
@@ -569,13 +570,21 @@ List<Task> availableTasks = TaskHandlerUtil.getAvailableFlags(wikiPage.getPageId
 				zIndex: 1
 			}
 		).render();
+		
+		var sidenav = $( '.sidenav-menu-slider' ).is(':visible');
+		
+		$('.sidenav-toggler').on('click', function(){
+			popoverAnim.set('visible', false);
+		});
+		
+		$(window).scroll(function() {
+			popoverAnim.set('visible', false);			
+		});
+		
+		triggerAnim.on('click',function() {
+			popoverAnim.set('visible', !popoverAnim.get('visible'));
+		});
 
-		triggerAnim.on(
-			'click',
-			function() {
-				popoverAnim.set('visible', !popoverAnim.get('visible'));
-			}
-		);
 
 		A.one('body').delegate(
 			'click',
